@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
 // This merge sort is implemented based on Princeton's algorithm
+// To run this class, java MergeSort sort.txt
 public class MergeSort{
 
     public static void main(String[] args){
@@ -14,7 +15,7 @@ public class MergeSort{
                 if (line != null){
                     String[] a = line.split(" ");
                     String[] aux = new String[a.length];
-                    sort(a, aux);
+                    sortBU(a, aux);
                     for (String s: a){
                         System.out.println(s);
                     }
@@ -26,6 +27,8 @@ public class MergeSort{
             System.out.println("Not valid input");
         }
     }
+
+    // this method is using recursive algorithm
     public static <T extends Comparable<? super T>> void sort(T[] a, T[] aux){
         sort(a, aux, 0, a.length - 1);
     }
@@ -38,6 +41,18 @@ public class MergeSort{
         sort(a, aux, mid + 1, hi);
         merge(a, aux, lo, mid, hi);
     }
+
+
+    // this method is using bottom-up merge sort
+    public static <T extends Comparable<? super T>> void sortBU(T[] a, T[] aux){
+        int N = a.length;
+        for(int sz = 1; sz < N; sz = sz + sz){
+            for (int lo = 0; lo < N - sz; lo += sz + sz){
+                merge(a, aux, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, N - 1));
+            }
+        }
+    }
+
     public static <T extends Comparable<? super T>> void merge(T[] a, T[] aux, int lo, int mid, int hi){
         assert isSorted(a, lo, mid);
         assert isSorted(a, mid + 1, hi);
