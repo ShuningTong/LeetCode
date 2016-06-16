@@ -53,7 +53,7 @@ public class BinaryTreeLevelOrderTraversal {
     public static LinkedList<LinkedList<Integer>> levelOrder(TreeNode root) {
         LinkedList<LinkedList<Integer>> listCollection = new LinkedList<>();
         if (root == null){
-            return null;
+            return listCollection;
         }
         LinkedList<TreeNode> queue = new LinkedList<>();
         queue.add(root);
@@ -75,6 +75,47 @@ public class BinaryTreeLevelOrderTraversal {
                 size--;
             }
             listCollection.add(curList);     
+        }
+        return listCollection;
+    }
+
+    // this is a special level order traversal, it's bottom-up
+    // e.g. 
+        // 3
+      //  / \
+      // 9  20
+      //   /  \
+      //  15   7
+    // will return
+//   [[15,7],
+//   [9,20],
+//   [3]]
+    // the implementation is very simple, just add each list to the start of listCollection
+    public static LinkedList<LinkedList<Integer>> levelOrderBU(TreeNode root) {
+        LinkedList<LinkedList<Integer>> listCollection = new LinkedList<>();
+        if (root == null){
+            return listCollection;
+        }
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        TreeNode curNode = null;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            // this while loop is important, it controls the iteration of the outer while loop
+            LinkedList<Integer> curList = new LinkedList<Integer>();
+            while (size > 0){
+                curNode = queue.remove();
+                curList.add(curNode.val);
+                if (curNode.left != null){
+                    queue.add(curNode.left);
+                }
+                if (curNode.right != null){
+                    queue.add(curNode.right);
+                } 
+                size--;
+            }
+            listCollection.addFirst(curList);     
         }
         return listCollection;
     }
