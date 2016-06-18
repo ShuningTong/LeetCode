@@ -38,7 +38,7 @@ public class BinaryTreeLevelOrderTraversal {
                     queue.add(curNode.right);
                 }  
             }
-            LinkedList<LinkedList<Integer>> listCollection = levelOrder(root);
+            LinkedList<LinkedList<Integer>> listCollection = levelOrderZigzag(root);
             for (LinkedList<Integer> list: listCollection){
                 for (Integer i: list){
                     System.out.print(i + " ");
@@ -116,6 +116,42 @@ public class BinaryTreeLevelOrderTraversal {
                 size--;
             }
             listCollection.addFirst(curList);     
+        }
+        return listCollection;
+    }
+
+    public static LinkedList<LinkedList<Integer>> levelOrderZigzag(TreeNode root) {
+        LinkedList<LinkedList<Integer>> listCollection = new LinkedList<>();
+        if (root == null){
+            return listCollection;
+        }
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        TreeNode curNode = null;
+        boolean reverse = false;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            // this while loop is important, it controls the iteration of the outer while loop
+            LinkedList<Integer> curList = new LinkedList<Integer>();
+
+            while (size > 0){
+                curNode = queue.remove();
+                if (reverse){
+                    curList.addFirst(curNode.val);
+                }else{
+                    curList.add(curNode.val);
+                }
+                if (curNode.left != null){
+                    queue.add(curNode.left);
+                }
+                if (curNode.right != null){
+                    queue.add(curNode.right);
+                } 
+                size--;
+            }
+            reverse = !reverse;
+            listCollection.add(curList);     
         }
         return listCollection;
     }
