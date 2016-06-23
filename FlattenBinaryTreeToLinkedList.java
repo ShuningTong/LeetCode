@@ -3,7 +3,7 @@ import java.util.Scanner;
 //https://leetcode.com/discuss/17615/java-solution-recursive-%26-non-recursive
 public class FlattenBinaryTreeToLinkedList {
     public static void main(String[] args){
-               if (args != null && args.length != 0){
+        if (args != null && args.length != 0){
             int curVal = Integer.parseInt(args[0]);
             TreeNode root = new TreeNode(curVal);
             Scanner sc = new Scanner(System.in);

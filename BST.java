@@ -14,6 +14,8 @@ public class BST<Key extends Comparable<Key>, Value>{
         System.out.println(bst.root.left.N);
         System.out.println(bst.root.right.N);
         System.out.println(bst.rank(16));
+        bst.delete(10);
+        System.out.println(bst.root.N);
         Iterable<Integer> bstIterator = bst.iterator();
         for (Integer i: bstIterator){
             System.out.println(i);
@@ -77,7 +79,8 @@ public class BST<Key extends Comparable<Key>, Value>{
         }else{
             x.val = val;
         }
-        x.N++;
+        // because we can just replace one value instead of adding one value
+        x.N = 1 + size(x.left) + size(x.right);
         return x;
     }
 
@@ -153,8 +156,60 @@ public class BST<Key extends Comparable<Key>, Value>{
         }
     }
 
-    public void delete(Key key){
+    public TreeNodeAlgs4 min(TreeNodeAlgs4 x){
+        if (x.left == null){
+            return x;
+        }
+        return min(x.left);
+    }
 
+    public void deleteMin(){
+        this.root = deleteMin(this.root);
+    }
+
+    private TreeNodeAlgs4 deleteMin(TreeNodeAlgs4 x){
+        if (x.left == null){
+            return x.right;
+        }
+        x.left = deleteMin(x.left);
+        x.N--;
+        return x;
+    }
+
+    public void delete(Key key){
+        this.root = delete(this.root, key);
+    }
+
+    // this method is very important
+    // it's called hibbard deletion
+    // always use the min node in the right sub tree as the successor
+    // thinking is easy, but implementation is usually harder
+    // but this method has problem
+    // the tree will become less balanced as deleting more and more
+    // the tree height will become sqrt(N), instead of log(N)
+    private TreeNodeAlgs4 delete(TreeNodeAlgs4 x, Key key){
+        if (x == null){
+            return null;
+        }
+        int cmp = key.compareTo(x.key);
+        if (cmp > 0){
+            x.right = delete(x.right, key);
+        }else if(cmp < 0){
+            x.left = delete(x.left, key);
+        }else{
+            if (x.right == null){
+                return x.left;
+            }
+            if (x.left == null){
+                return x.right;
+            }
+            TreeNodeAlgs4 t = x;
+            x = min(t.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }
+        x.N = 1 + size(x.left) + size(x.right);
+        return x;
     }
 
     public Iterable<Key> iterator(){
