@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 // Dynamic Programming Question
 public class UniqueBinarySearchTrees {
 
@@ -10,6 +11,7 @@ public class UniqueBinarySearchTrees {
         }
     }
 
+    // this is the DP solution for calculating the number of unique BST trees
     public static int numTrees(int n) {
         assert n >= 0;
 
@@ -31,7 +33,42 @@ public class UniqueBinarySearchTrees {
         return results[n];
     }
 
+    // this is the DP solution for generating unique BST trees
     public static LinkedList<TreeNode> generateTrees(int n){
-        
+        // this is for when n== 0, return [] instead of [[]]
+        if (n == 0){
+            return new LinkedList<TreeNode>();
+        }
+        assert n > 0;
+        @SuppressWarnings("unchecked") 
+        LinkedList<TreeNode>[] result = new LinkedList[n + 1];
+        result[0] = new LinkedList<TreeNode>();
+        result[0].add(null);
+
+        for (int i = 1; i <= n; i++){
+            result[i] = new LinkedList<TreeNode>();
+            for (int j = 1; j <= i; j++){
+                for(TreeNode leftNode: result[j - 1]){
+                    for (TreeNode rightNode: result[i - j]){
+                        TreeNode root = new TreeNode(j);
+                        root.left = leftNode;
+                        root.right = offset(rightNode, j);
+                        result[i].add(root);
+                    }
+                }
+            }
+        }
+        return result[n];
+    }
+
+    // offset each node using a preorder traversal
+    private static TreeNode offset(TreeNode n, int offset){
+        if (n == null){
+            return null;
+        }
+        TreeNode node = new TreeNode(n.val + offset);
+        node.left = offset(n.left, offset);
+        node.right = offset(n.right, offset);
+        return node;
     }
 }
