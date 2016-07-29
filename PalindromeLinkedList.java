@@ -8,6 +8,7 @@ public class PalindromeLinkedList{
             cur.next = new ListNode(i);
             cur = cur.next;
         }
+        System.out.println(head);
         System.out.println(isPalindrome(head));
         System.out.println(head);
     }
@@ -26,6 +27,12 @@ public class PalindromeLinkedList{
             slow = slow.next;
         }
 
+        // notice: because we reverse one part of the list, the original list (head) is also modified.
+        // 1-2-3-3-2-1
+        // reverse the second half: 3-2-1
+        // it becomes 1-2-3
+        // the original list becomes 1-2-3-3 (the last 3 is the same one with the last 3 of the previous line)
+        // if we want to keep the original list intact, we should do reverse again.
         slow = ReverseLinkedList.reverseListIterative(slow);
         
         ListNode cur = head;
