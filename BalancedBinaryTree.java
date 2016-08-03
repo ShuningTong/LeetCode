@@ -16,22 +16,15 @@ public class BalancedBinaryTree {
         return dfsHeight(root) != -1;
     }
 
-    public static int dfsHeight(TreeNode curNode){
-        if (curNode == null){
+    public static int dfsHeight(TreeNode cur){
+        if (cur == null){
             return 0;
         }
-        int leftHeight = dfsHeight(curNode.left);
-        if (leftHeight == -1){
+        int left = dfsHeight(cur.left);
+        int right = dfsHeight(cur.right);
+        if (left == -1 || right == -1 || Math.abs(left - right) > 1){
             return -1;
         }
-        int rightHeight = dfsHeight(curNode.right);
-        if (rightHeight == -1){
-            return -1;
-        }
-        if (Math.abs(leftHeight - rightHeight) > 1){
-            return -1;
-        }else{
-            return Math.max(leftHeight, rightHeight) + 1;
-        }
+        return Math.max(left, right) + 1;
     }
 }
