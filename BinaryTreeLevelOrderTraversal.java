@@ -79,7 +79,7 @@ public class BinaryTreeLevelOrderTraversal {
         return listCollection;
     }
 
-    // this is a special level order traversal, it's bottom-up
+    // this is a special level order traversal, it's bottom-up, YEAH it's bottom-up, but it's still BFS
     // e.g. 
         // 3
       //  / \

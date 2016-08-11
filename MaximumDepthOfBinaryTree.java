@@ -58,6 +58,9 @@ public class MaximumDepthOfBinaryTree {
         TreeNode right;
         TreeNode(int x) { val = x; }
     }
+
+    // iterative method
+    // 用BFS的方法一层一层往下搜索，直到找到最后一个节点就退出
     public static int maxDepth(TreeNode root) {
         if (root == null){
             return 0;
@@ -90,14 +93,18 @@ public class MaximumDepthOfBinaryTree {
             mDepth++;       
         }
         return mDepth;
-        // this is the recursive solution
-        // return maxDepth(root, 0);
-
     }
-    // public static int maxDepth(TreeNode node, int depth) {
-    //     if(node == null){
-    //         return depth;
-    //     }
-    //     return Math.max(maxDepth(node.left, depth + 1), maxDepth(node.right, depth + 1));
-    // }
+
+    // 分治
+    // Maximum depth = Math.max(leftchild.depth, rightchild.depth) + 1
+    //递归三要素之一：定义
+    //把root.depth找到
+    public static int maxDepthDC(TreeNode cur) {
+        //递归三要素之二：极端小的状态
+        if (cur == null){
+            return 0;
+        }
+        //递归三要素之三：如何变为更小的状态
+        return Math.max(maxDepth(cur.left), maxDepth(cur.right)) + 1;
+    }
 }
