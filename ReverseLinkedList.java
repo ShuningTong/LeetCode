@@ -45,15 +45,16 @@ public class ReverseLinkedList {
     // the method not using stack
     // we can change this method into a recursive one
     public static ListNode reverseListIterative(ListNode head){
-        ListNode newHead = null;
-        ListNode next;
-        while(head != null){
-            next = head.next;
-            head.next = newHead;
-            newHead = head;
-            head = next;
+        ListNode curt = head;
+        ListNode prev = null;
+        ListNode temp;
+        while(curt != null){
+            temp = curt.next;
+            curt.next = prev;
+            prev = curt;
+            curt = temp;
         }
-        return newHead;
+        return prev;
     }
 
     // the recursive method
